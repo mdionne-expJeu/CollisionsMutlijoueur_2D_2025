@@ -22,6 +22,12 @@ public class Balle : NetworkBehaviour
             collision.gameObject.GetComponent<NetworkObject>().Despawn(false);
         }
 
+        if (collision.gameObject.tag == "Fruit")
+        {
+            SoundManager.instance.JoueSon_Rpc(Random.Range(1,3));
+            collision.gameObject.GetComponent<NetworkObject>().Despawn(true);
+        }
+
     }
    
     

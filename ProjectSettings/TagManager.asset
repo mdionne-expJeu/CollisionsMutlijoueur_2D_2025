@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Brique
+  - Fruit
   layers:
   - Default
   - TransparentFX

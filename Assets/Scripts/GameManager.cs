@@ -5,10 +5,12 @@ using System;
 
 public class GameManager : NetworkBehaviour
 {
-    public static GameManager singleton { get; private set;}
+    public static GameManager singleton { get; private set; }
     public GameObject panelDeConnexion;
     public GameObject panelAttente;
     public GameObject balle;
+    public GameObject Joueur1;
+    public GameObject Joueur2;
 
     public Action OnDebutPartie; // Création d'une action auquel d'autres scripts pourront s'abonner.
 
@@ -23,8 +25,8 @@ public class GameManager : NetworkBehaviour
         {
             Destroy(gameObject);
         }
-    
-   }
+
+    }
     // Abonnement au callback OnClientConnectedCallback qui lancera la fonction OnNouveauClientConnecte.
     public override void OnNetworkSpawn()
     {
@@ -54,10 +56,14 @@ public class GameManager : NetworkBehaviour
         {
             panelDeConnexion.SetActive(false);
             panelAttente.SetActive(true);
+            GameObject nouveauJoueur = Instantiate(Joueur1);
+            nouveauJoueur.GetComponent<NetworkObject>().SpawnWithOwnership(obj);
         }
         else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
         {
             panelAttente.SetActive(false);
+            GameObject nouveauJoueur = Instantiate(Joueur2);
+            nouveauJoueur.GetComponent<NetworkObject>().SpawnWithOwnership(obj);
             DebutSimulation();
         }
     }
@@ -83,16 +89,32 @@ public class GameManager : NetworkBehaviour
     {
         OnDebutPartie?.Invoke();
 
-        GameObject nouvelleBalle = Instantiate(balle);
-        nouvelleBalle.GetComponent<NetworkObject>().Spawn();
-        StartCoroutine(DesactivationGravite(nouvelleBalle));
+        CreationBalle();
 
     }
 
+
+
+    void Update()
+    {
+        if (!IsServer) return;
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            CreationBalle();
+        }
+    }
+
+    private void CreationBalle()
+    {
+        GameObject nouvelleBalle = Instantiate(balle);
+        nouvelleBalle.GetComponent<NetworkObject>().Spawn();
+        nouvelleBalle.GetComponent<Rigidbody2D>().gravityScale = 1;
+        StartCoroutine(DesactivationGravite(nouvelleBalle));
+    }
+    
     IEnumerator DesactivationGravite(GameObject nouvelleBalle)
     {
         yield return new WaitForSeconds(1f);
         nouvelleBalle.GetComponent<Rigidbody2D>().gravityScale = 0;
     }
-
 }

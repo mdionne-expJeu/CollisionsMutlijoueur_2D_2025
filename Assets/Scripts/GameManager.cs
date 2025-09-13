@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Collections;
 using System;
+using Unity.Netcode.Transports.UTP;
 
 public class GameManager : NetworkBehaviour
 {
@@ -68,16 +69,22 @@ public class GameManager : NetworkBehaviour
         }
     }
 
-    public void LancementHote()
+    public void LancementHote(string adresseIP)
     {
+        UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        utp.SetConnectionData(adresseIP, 7777);
+
         NetworkManager.Singleton.StartHost();
-        panelDeConnexion.SetActive(false);
+        NavigationManager.singleton.CachePanelsConfig();
     }
 
-    public void LancementClient()
+    public void LancementClient(string adresseIP)
     {
+        UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
+        utp.SetConnectionData(adresseIP, 7777);
+
         NetworkManager.Singleton.StartClient();
-        panelDeConnexion.SetActive(false);
+        NavigationManager.singleton.CachePanelsConfig();
     }
 
 

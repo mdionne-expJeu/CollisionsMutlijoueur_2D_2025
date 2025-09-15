@@ -9,9 +9,6 @@ public class GameManager : NetworkBehaviour
     public GameObject panelDeConnexion;
     public GameObject panelAttente;
     public GameObject balle;
-    public GameObject Joueur1;
-    public GameObject Joueur2;
-
     public Action OnDebutPartie; // Création d'une action auquel d'autres scripts pourront s'abonner.
 
 
@@ -56,14 +53,11 @@ public class GameManager : NetworkBehaviour
         {
             panelDeConnexion.SetActive(false);
             panelAttente.SetActive(true);
-            GameObject nouveauJoueur = Instantiate(Joueur1);
-            nouveauJoueur.GetComponent<NetworkObject>().SpawnWithOwnership(obj);
         }
         else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
         {
             panelAttente.SetActive(false);
-            GameObject nouveauJoueur = Instantiate(Joueur2);
-            nouveauJoueur.GetComponent<NetworkObject>().SpawnWithOwnership(obj);
+            
             DebutSimulation();
         }
     }

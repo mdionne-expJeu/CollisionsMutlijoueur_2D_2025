@@ -9788,8 +9788,7 @@ MonoBehaviour:
   panelDeConnexion: {fileID: 48978221}
   panelAttente: {fileID: 1909181784}
   balle: {fileID: 4766253011594568830, guid: d7eb7cd09001a4dec9a6e29bee6c6e5f, type: 3}
-  Joueur1: {fileID: 6519297369172772106, guid: 4576af1d7257647f8988c0bd11f808a4, type: 3}
-  Joueur2: {fileID: 6519297369172772106, guid: 463725d250d224c569fbb84474f14104, type: 3}
+  couleurJoueur2: {r: 1, g: 0.76408356, b: 0, a: 0}
 --- !u!1001 &1528159686
 PrefabInstance:
   m_ObjectHideFlags: 0

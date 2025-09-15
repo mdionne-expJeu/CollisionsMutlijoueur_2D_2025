@@ -256,6 +256,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   vitesse: 10
+  couleurJoueur2: {r: 1, g: 0.8691972, b: 0, a: 1}
 --- !u!50 &-8489954778759234837
 Rigidbody2D:
   serializedVersion: 5

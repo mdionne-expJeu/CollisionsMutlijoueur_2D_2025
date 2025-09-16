@@ -7,6 +7,10 @@ public class NavigationManager : MonoBehaviour
     [SerializeField] private GameObject panelHostConfig;
     [SerializeField] private GameObject panelClientConfig;
 
+    [SerializeField] private GameObject PanelAttenteServeur;
+    [SerializeField] private GameObject PanellAttenteClient;
+
+    [SerializeField] private GameObject PanelServeurLancePartie;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
 
@@ -38,5 +42,22 @@ public class NavigationManager : MonoBehaviour
         panelSelectionHostClient.SetActive(false);
         panelClientConfig.SetActive(false);
         panelHostConfig.SetActive(false);
+    }
+
+    public void AfficheAttenteServeur()
+    {
+        panelHostConfig.SetActive(false);
+        PanelAttenteServeur.SetActive(true);
+    }
+    public void AfficheAttenteClient()
+    {
+        panelClientConfig.SetActive(false);
+        PanellAttenteClient.SetActive(true);
+    }
+    
+    public void AffichePanelServeurLancePartie()
+    {
+        PanelAttenteServeur.SetActive(false);
+        PanelServeurLancePartie.SetActive(true);
     }
 }

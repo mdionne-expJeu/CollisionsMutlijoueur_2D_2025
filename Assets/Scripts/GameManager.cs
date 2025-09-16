@@ -3,16 +3,15 @@ using Unity.Netcode;
 using System.Collections;
 using System;
 using Unity.Netcode.Transports.UTP;
+using UnityEngine.SceneManagement;
 
 public class GameManager : NetworkBehaviour
 {
     public static GameManager singleton { get; private set; }
-    public GameObject panelDeConnexion;
-    public GameObject panelAttente;
+   
     public GameObject balle;
-    public GameObject Joueur1;
-    public GameObject Joueur2;
-
+    public GameObject joueur1;
+    public GameObject joueur2;
     public Action OnDebutPartie; // Création d'une action auquel d'autres scripts pourront s'abonner.
 
 
@@ -21,6 +20,7 @@ public class GameManager : NetworkBehaviour
         if (singleton == null)
         {
             singleton = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -51,22 +51,28 @@ public class GameManager : NetworkBehaviour
     */
     private void OnNouveauClientConnecte(ulong obj)
     {
-        if (!IsServer) return;
+
+        if (!IsServer)
+        {
+            NavigationManager.singleton.AfficheAttenteClient();
+            return;
+        }
 
         if (NetworkManager.Singleton.ConnectedClients.Count == 1)
-        {
-            panelDeConnexion.SetActive(false);
-            panelAttente.SetActive(true);
-            GameObject nouveauJoueur = Instantiate(Joueur1);
-            nouveauJoueur.GetComponent<NetworkObject>().SpawnWithOwnership(obj);
-        }
-        else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
-        {
-            panelAttente.SetActive(false);
-            GameObject nouveauJoueur = Instantiate(Joueur2);
-            nouveauJoueur.GetComponent<NetworkObject>().SpawnWithOwnership(obj);
-            DebutSimulation();
-        }
+            {
+                NavigationManager.singleton.AfficheAttenteServeur();
+               
+            }
+            else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
+            {
+                NavigationManager.singleton.AffichePanelServeurLancePartie();
+               
+            }
+    }
+
+    public void ChargementSceneJeu()
+    { 
+        NetworkManager.Singleton.SceneManager.LoadScene("LeJeu", LoadSceneMode.Single);
     }
 
     public void LancementHote(string adresseIP)
@@ -92,7 +98,7 @@ public class GameManager : NetworkBehaviour
     Dans cette fonction, on invoque l'action OnDebutPartie. Tous les scripts abonné à cette action exécuteront
     la fonction qu'ils ont associée à cette action.
     */
-    void DebutSimulation()
+    public void DebutSimulation()
     {
         OnDebutPartie?.Invoke();
 
@@ -110,8 +116,15 @@ public class GameManager : NetworkBehaviour
             CreationBalle();
         }
     }
+    public void CreationJoueurs()
+    {
+        GameObject nouveauJoueur = Instantiate(joueur1);
+        nouveauJoueur.GetComponent<NetworkObject>().SpawnWithOwnership(0);
 
-    private void CreationBalle()
+        GameObject nouveauJoueur2 = Instantiate(joueur2);
+        nouveauJoueur2.GetComponent<NetworkObject>().SpawnWithOwnership(1);
+    }
+    public void CreationBalle()
     {
         GameObject nouvelleBalle = Instantiate(balle);
         nouvelleBalle.GetComponent<NetworkObject>().Spawn();

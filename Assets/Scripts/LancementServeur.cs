@@ -1,12 +1,13 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LancementServeur : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] SceneAsset sceneLobby;
     void Start()
     {
-        SceneManager.LoadScene("Lobby");
+        SceneManager.LoadScene(sceneLobby.name);
     }
 
     // Update is called once per frame

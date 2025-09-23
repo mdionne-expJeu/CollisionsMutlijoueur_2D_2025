@@ -28,13 +28,18 @@ public class NavigationManager : MonoBehaviour
     public void NavigationPanelHost()
     {
         panelSelectionHostClient.SetActive(false);
-        panelHostConfig.SetActive(true);
+        PanelAttenteServeur.SetActive(true);
+
+        // Section pour Relay. À commenter si réseau local
+        RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsHost());
     }
 
     public void NavigationPanelClient()
     {
         panelSelectionHostClient.SetActive(false);
         panelClientConfig.SetActive(true);
+
+        
     }
 
     public void CachePanelsConfig()

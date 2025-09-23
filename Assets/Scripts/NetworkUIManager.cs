@@ -41,6 +41,6 @@ public class NetworkUIManager : MonoBehaviour
      public void ClientRejointHote()
     {
         if(champsIPClient.text != "")
-            GameManager.singleton.LancementClient(champsIPClient.text);
+            GameManager.singleton.LancementClientRelay();
     }
 }

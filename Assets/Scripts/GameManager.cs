@@ -93,6 +93,14 @@ public class GameManager : NetworkBehaviour
         NavigationManager.singleton.CachePanelsConfig();
     }
 
+    public void LancementClientRelay()
+    {
+        RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsConnectingPlayer());
+
+    }
+
+
+
 
     /*
     Dans cette fonction, on invoque l'action OnDebutPartie. Tous les scripts abonné à cette action exécuteront

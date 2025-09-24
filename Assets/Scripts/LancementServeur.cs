@@ -1,18 +1,13 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LancementServeur : MonoBehaviour
 {
-    [SerializeField] SceneAsset sceneLobby;
+    [SerializeField] string NomSceneDepart;
     void Start()
     {
-        SceneManager.LoadScene(sceneLobby.name);
+        SceneManager.LoadScene(NomSceneDepart);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }

@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "CollisionsMutlijoueur_2D_2025.sln"
+    "dotnet.defaultSolution": "CollisionsMutlijoueur_2D.sln"
 }

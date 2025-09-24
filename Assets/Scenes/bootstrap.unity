@@ -390,7 +390,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 369bc7c1f9aa24f148c9018388d017c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneLobby: {fileID: 102900000, guid: 0e496fa1a1e5f354bb20a6b987285a96, type: 3}
+  NomSceneDepart: LobbyRelay
 --- !u!4 &1985273502
 Transform:
   m_ObjectHideFlags: 0

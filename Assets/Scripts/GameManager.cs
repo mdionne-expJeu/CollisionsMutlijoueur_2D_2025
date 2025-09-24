@@ -84,6 +84,11 @@ public class GameManager : NetworkBehaviour
         NavigationManager.singleton.CachePanelsConfig();
     }
 
+    public void LancementHoteDecouverteLan()
+    {
+        NetworkManager.Singleton.StartHost();
+    }
+
     public void LancementClient(string adresseIP)
     {
         UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();

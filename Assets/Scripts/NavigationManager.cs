@@ -11,7 +11,10 @@ public class NavigationManager : MonoBehaviour
     [SerializeField] private GameObject PanellAttenteClient;
 
     [SerializeField] private GameObject PanelServeurLancePartie;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    [SerializeField] private GameObject decourverLANHote;
+    [SerializeField] private GameObject decourverLANClient;
+    
 
 
     private void Awake()
@@ -29,15 +32,18 @@ public class NavigationManager : MonoBehaviour
     {
         panelSelectionHostClient.SetActive(false);
         PanelAttenteServeur.SetActive(true);
+        decourverLANHote.SetActive(true);
+        GameManager.singleton.LancementHoteDecouverteLan();
 
-        // Section pour Relay. À commenter si réseau local
-        RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsHost());
+        // Section pour Relay
+        //RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsHost());
     }
 
     public void NavigationPanelClient()
     {
         panelSelectionHostClient.SetActive(false);
         panelClientConfig.SetActive(true);
+        decourverLANClient.SetActive(true);
 
         
     }

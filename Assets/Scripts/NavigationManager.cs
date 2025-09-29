@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 public class NavigationManager : MonoBehaviour
 {
@@ -12,10 +13,11 @@ public class NavigationManager : MonoBehaviour
 
     [SerializeField] private GameObject PanelServeurLancePartie;
 
-    [SerializeField] private GameObject decourverLANHote;
-    [SerializeField] private GameObject decourverLANClient;
+    [SerializeField] private GameObject decouvreLANHote;
+    [SerializeField] private GameObject decouvreLANClient;
+    [SerializeField] private TMP_InputField champsNomPartieHote;
     
-
+    [SerializeField] private TextMeshProUGUI NomPartieHote;
 
     private void Awake()
     {
@@ -31,19 +33,31 @@ public class NavigationManager : MonoBehaviour
     public void NavigationPanelHost()
     {
         panelSelectionHostClient.SetActive(false);
-        PanelAttenteServeur.SetActive(true);
-        decourverLANHote.SetActive(true);
-        GameManager.singleton.LancementHoteDecouverteLan();
+        panelHostConfig.SetActive(true);
+    
 
         // Section pour Relay
         //RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsHost());
     }
 
+    public void CreationPartieHote ()
+    {
+        panelHostConfig.SetActive(false);
+        PanelAttenteServeur.SetActive(true);
+        decouvreLANHote.GetComponent<LanDiscovery>().gameName = champsNomPartieHote.text;
+        decouvreLANHote.SetActive(true);
+        NomPartieHote.text = champsNomPartieHote.text;
+        GameManager.singleton.LancementHoteDecouverteLan();
+;
+    }
+
+
+
     public void NavigationPanelClient()
     {
         panelSelectionHostClient.SetActive(false);
         panelClientConfig.SetActive(true);
-        decourverLANClient.SetActive(true);
+        decouvreLANClient.SetActive(true);
 
         
     }

@@ -4935,6 +4935,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1822296329}
   - component: {fileID: 1822296328}
+  - component: {fileID: 1822296330}
   m_Layer: 0
   m_Name: OnlineController
   m_TagString: Untagged
@@ -4972,6 +4973,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1825707331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1822296330
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1822296327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14e0589092d55b34da869fef60526130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NetworkDiag
 --- !u!1 &1825707330
 GameObject:
   m_ObjectHideFlags: 0

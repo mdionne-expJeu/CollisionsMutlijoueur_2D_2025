@@ -178,7 +178,7 @@ public class PlayOnlineController : MonoBehaviour
             alloc.Key,
             alloc.ConnectionData,
             alloc.ConnectionData,   // côté hôte: hostConnectionData = ConnectionData
-            true                    // DTLS
+            false                    // DTLS
         );
 
         var joinCode = await RelayService.Instance.GetJoinCodeAsync(alloc.AllocationId);
@@ -226,7 +226,7 @@ public class PlayOnlineController : MonoBehaviour
                     join.Key,
                     join.ConnectionData,
                     join.HostConnectionData, // côté client
-                    true // DTLS
+                    false // DTLS
                 );
 
                 Debug.Log($"[CLIENT] Join réussi avec le code {code} (attempt {attempt})");

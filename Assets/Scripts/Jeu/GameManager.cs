@@ -66,7 +66,7 @@ public class GameManager : NetworkBehaviour
         TryStartWhenReady();
         if (!IsServer)
         {
-            NavigationManager.singleton.AfficheAttenteClient();
+//            NavigationManager.singleton.AfficheAttenteClient();
             return;
         }
 

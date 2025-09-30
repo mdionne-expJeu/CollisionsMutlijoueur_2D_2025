@@ -15,6 +15,17 @@ public class GameManager : NetworkBehaviour
     public Action OnDebutPartie; // Création d'une action auquel d'autres scripts pourront s'abonner.
 
 
+[Header("Scene à charger quand tous les joueurs sont connectés")]
+    [SerializeField] private string targetSceneName = "OnlineGame";
+
+    [Header("Nombre total de joueurs attendus (Host inclus)")]
+    [SerializeField] private int expectedPlayers = 2;
+
+    [Header("Petit délai pour laisser finir les spawns/handshakes")]
+    [SerializeField] private float loadDelaySeconds = 0.5f;
+
+     private bool _triggered;
+
     private void Awake()
     {
         if (singleton == null)
@@ -52,6 +63,7 @@ public class GameManager : NetworkBehaviour
     private void OnNouveauClientConnecte(ulong obj)
     {
 
+        TryStartWhenReady();
         if (!IsServer)
         {
             NavigationManager.singleton.AfficheAttenteClient();
@@ -59,19 +71,53 @@ public class GameManager : NetworkBehaviour
         }
 
         if (NetworkManager.Singleton.ConnectedClients.Count == 1)
-            {
-                NavigationManager.singleton.AfficheAttenteServeur();
-               
-            }
-            else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
-            {
-                NavigationManager.singleton.AffichePanelServeurLancePartie();
-               
-            }
+        {
+            //NavigationManager.singleton.AfficheAttenteServeur();
+            Debug.Log("Un joueur connecté");
+        }
+        else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
+        {
+            //NavigationManager.singleton.AffichePanelServeurLancePartie();
+            Debug.Log("Un deuxième joueur connecté");
+
+        }
+    }
+    
+    private void TryStartWhenReady()
+    {
+        // Ne fait sens que côté serveur/host
+        if (!NetworkManager.Singleton.IsServer) return;
+        if (_triggered) return;
+
+        int connected = NetworkManager.Singleton.ConnectedClientsList.Count; // inclut le host
+        if (connected >= expectedPlayers)
+        {
+            _triggered = true;
+            StartCoroutine(LoadAfterDelay());
+        }
+    }
+
+    private IEnumerator LoadAfterDelay()
+    {
+        yield return new WaitForSeconds(loadDelaySeconds);
+
+        // Charge réseau : tous les clients suivront automatiquement
+        if (NetworkManager.Singleton.SceneManager != null)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene(
+                targetSceneName,
+                LoadSceneMode.Single
+            );
+        }
+        else
+        {
+            // fallback local (au cas où Scene Management NGO serait off)
+            SceneManager.LoadScene(targetSceneName, LoadSceneMode.Single);
+        }
     }
 
     public void ChargementSceneJeu()
-    { 
+    {
         NetworkManager.Singleton.SceneManager.LoadScene("LeJeu", LoadSceneMode.Single);
     }
 

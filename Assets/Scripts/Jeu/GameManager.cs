@@ -84,6 +84,7 @@ public class GameManager : NetworkBehaviour
         NavigationManager.singleton.CachePanelsConfig();
     }
 
+    //Création de l'hôte
     public void LancementHoteDecouverteLan()
     {
         NetworkManager.Singleton.StartHost();

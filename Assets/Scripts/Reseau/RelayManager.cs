@@ -19,11 +19,11 @@ using TMPro;
 public class RelayManager : MonoBehaviour
 {
     public static RelayManager instance;
-    const int m_MaxConnections = 1; // Celui qui établi le relais compte déà
+    const int m_MaxConnections = 1; // Celui qui ï¿½tabli le relais compte dï¿½ï¿½
     public string RelayJoinCode;
 
-    private Allocation allocation; // ajout, différent du tuto
-    private JoinAllocation joinAllocation; // ajout, différent du tuto
+    private Allocation allocation; // ajout, diffï¿½rent du tuto
+    private JoinAllocation joinAllocation; // ajout, diffï¿½rent du tuto
 
     [SerializeField] private TextMeshProUGUI joinCodeText;
     [SerializeField] private TMP_InputField joinCodeInputField;
@@ -59,7 +59,7 @@ public class RelayManager : MonoBehaviour
         }
     }
 
-    // différent du tuto : task de type string
+    // diffï¿½rent du tuto : task de type string
     public async Task<string> AllocateRelayServerAndGetJoinCode(int maxConnections, string region = null)
     {
         string createJoinCode;
@@ -110,7 +110,7 @@ public class RelayManager : MonoBehaviour
         var relayServerData = serverRelayUtilityTask.Result;
 
         //Display the joincode to the user
-        // ajout, différent du tuto : SetRelayServerData
+        // ajout, diffï¿½rent du tuto : SetRelayServerData
         NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(AllocationUtils.ToRelayServerData(allocation, "dtls"));
         NetworkManager.Singleton.StartHost();
         yield return null;

@@ -1,17 +1,19 @@
 using UnityEngine;
+using TMPro;
 
 public class NavigationManager : MonoBehaviour
 {
     public static NavigationManager singleton;
     [SerializeField] private GameObject panelSelectionHostClient;
-    [SerializeField] private GameObject panelHostConfig;
     [SerializeField] private GameObject panelClientConfig;
 
     [SerializeField] private GameObject PanelAttenteServeur;
     [SerializeField] private GameObject PanellAttenteClient;
 
     [SerializeField] private GameObject PanelServeurLancePartie;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    [SerializeField] private TMP_InputField champsIPClient;
+
 
 
     private void Awake()
@@ -25,41 +27,65 @@ public class NavigationManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    /*Callback du bouton Host. 
+    On désactive le panel de départ (Host/Client) et on active le panel d'attente côté côté host.
+    Démarrage de la coroutine ConfigureTransportAndStartNgoAsHost() de la classe RelayManager.
+    */
     public void NavigationPanelHost()
     {
         panelSelectionHostClient.SetActive(false);
         PanelAttenteServeur.SetActive(true);
 
-        // Section pour Relay. � commenter si r�seau local
         RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsHost());
     }
 
+    /*Callback du bouton Client. 
+    On désactive le panel de départ (Host/Client) et on active le panel d'attente côté côté client.
+    */
     public void NavigationPanelClient()
     {
         panelSelectionHostClient.SetActive(false);
         panelClientConfig.SetActive(true);
+    }
 
-        
+    /*Callback du bouton pour rejoindre la partie comme client en fournissant un code. 
+    Démarrage de la coroutine ConfigureTransportAndStartNgoAsConnectingPlayer() de la classe RelayManager.
+    */
+    public void ClientRejointHote()
+    {
+        if (champsIPClient.text != "")
+        {
+            RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsConnectingPlayer());
+        }
+
     }
 
     public void CachePanelsConfig()
     {
         panelSelectionHostClient.SetActive(false);
         panelClientConfig.SetActive(false);
-        panelHostConfig.SetActive(false);
     }
 
+     /*Appelée par le GameManager, côté serveur uniquement. Affichage du panel d'attente de la connexion
+     d'un 2e joueur 
+    */
     public void AfficheAttenteServeur()
     {
-        panelHostConfig.SetActive(false);
         PanelAttenteServeur.SetActive(true);
     }
+
+    /*Appelée par le GameManager, côté client uniquement. Affichage du panel d'attente que l'hôte
+    lance la partie 
+    */
     public void AfficheAttenteClient()
     {
         panelClientConfig.SetActive(false);
         PanellAttenteClient.SetActive(true);
     }
-    
+
+    /*Appelée par le GameManager, côté serveur uniquement. Affichage du panel permettant 
+    à l'hote de lancer la partie 
+    */
     public void AffichePanelServeurLancePartie()
     {
         PanelAttenteServeur.SetActive(false);

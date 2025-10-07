@@ -52,22 +52,27 @@ public class GameManager : NetworkBehaviour
     private void OnNouveauClientConnecte(ulong obj)
     {
 
+        //Si pas le serveur, on affiche le panel d'attente côté client. 
         if (!IsServer)
         {
             NavigationManager.singleton.AfficheAttenteClient();
             return;
         }
 
+        /* Si on est le serveur :
+        Si un seul client connecté (le serveur) on affiche la panel d'attente d'un second joueur
+        Si deux client connecté, on affiche le panel avec le bouton qui permet de lancer la partie
+        */
         if (NetworkManager.Singleton.ConnectedClients.Count == 1)
-            {
-                NavigationManager.singleton.AfficheAttenteServeur();
-               
-            }
-            else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
-            {
-                NavigationManager.singleton.AffichePanelServeurLancePartie();
-               
-            }
+        {
+            NavigationManager.singleton.AfficheAttenteServeur();
+
+        }
+        else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
+        {
+            NavigationManager.singleton.AffichePanelServeurLancePartie();
+
+        }
     }
 
     public void ChargementSceneJeu()

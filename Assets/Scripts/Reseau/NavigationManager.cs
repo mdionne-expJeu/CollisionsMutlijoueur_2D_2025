@@ -57,7 +57,6 @@ public class NavigationManager : MonoBehaviour
         {
             RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsConnectingPlayer());
         }
-
     }
 
     public void CachePanelsConfig()

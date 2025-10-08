@@ -1,11 +1,10 @@
-// AppBootstrap.cs (dans la scène Bootstrap)
 using System.Threading.Tasks;
 using UnityEngine;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
 using UnityEngine.SceneManagement;
 
-public class AppBootstrap : MonoBehaviour
+public class LancementServeur : MonoBehaviour
 {
     [SerializeField] string mainMenuSceneName;
 

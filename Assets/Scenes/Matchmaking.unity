@@ -202,7 +202,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1495831717}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NavigationManager, Assembly-CSharp
         m_MethodName: CreationPartieHote
         m_Mode: 1
@@ -252,6 +252,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 36302007}
   m_CullTransparentMesh: 1
+--- !u!1 &46530098
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 46530099}
+  - component: {fileID: 46530100}
+  m_Layer: 0
+  m_Name: NavigationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &46530099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46530098}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1825707331}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &46530100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46530098}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2426427e1afda444da25fc052e018d40, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NavigationManager
+  panelSelectionHostClient: {fileID: 48978221}
+  panelHostConfig: {fileID: 1135052158}
+  panelClientConfig: {fileID: 453083829}
+  PanelAttenteServeur: {fileID: 1909181784}
+  PanellAttenteClient: {fileID: 1478494209}
+  PanelServeurLancePartie: {fileID: 942058830}
 --- !u!1 &48978221
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +314,7 @@ GameObject:
   - component: {fileID: 48978224}
   - component: {fileID: 48978223}
   m_Layer: 5
-  m_Name: PanelBoutonHostClient
+  m_Name: PanelDepart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1036,7 +1086,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::OnlineUIButton
   playOnlineButton: {fileID: 203810113}
-  statusText: {fileID: 1792237653}
+  statusText: {fileID: 628074302}
   playOnlineController: {fileID: 1822296328}
 --- !u!1 &453083829
 GameObject:
@@ -1133,7 +1183,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f00a6787bcb34eeebdcac8a7f8f8490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LanMenu
-  discovery: {fileID: 1212617830}
+  discovery: {fileID: 0}
 --- !u!1 &489921292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,7 +1267,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703121235}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkUIManager, Assembly-CSharp
         m_MethodName: SelectionReseauPublic
         m_Mode: 1
@@ -2017,68 +2067,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628074300}
   m_CullTransparentMesh: 1
---- !u!1 &703121233
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 703121234}
-  - component: {fileID: 703121236}
-  - component: {fileID: 703121235}
-  m_Layer: 0
-  m_Name: UIMananagerNetwork
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &703121234
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703121233}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 336.73053, y: 245.96562, z: -1.8314962}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1825707331}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &703121235
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703121233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91816d45d728b41dd913936e5dbc2ed9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  champsIPHote: {fileID: 1039935969}
-  champsIPClient: {fileID: 557330794}
-  networkIpUtility: {fileID: 703121236}
---- !u!114 &703121236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703121233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a76ad9b8decd4b048824f19eeff96ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  publicIpServiceUrl: https://api.ipify.org
-  publicIpTimeoutSec: 5
 --- !u!1 &710310960
 GameObject:
   m_ObjectHideFlags: 0
@@ -3405,7 +3393,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1083398371
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3619,7 +3607,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1211419450
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3738,57 +3726,6 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!1 &1212617828
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1212617829}
-  - component: {fileID: 1212617830}
-  m_Layer: 0
-  m_Name: LanDiscoveryClient
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1212617829
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212617828}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1825707331}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1212617830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1212617828}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5efad17654c9e4947ba8adafb57d9ce8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LanDiscovery
-  role: 1
-  discoveryPort: 47777
-  magic: NGO_DISCOVERY_V1
-  broadcastIntervalMs: 1000
-  hostTtlSeconds: 5
-  gameName: Ma Partie
-  gamePortOverride: 0
 --- !u!1 &1250278243
 GameObject:
   m_ObjectHideFlags: 0
@@ -3872,7 +3809,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703121235}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkUIManager, Assembly-CSharp
         m_MethodName: SelectionLocalHost
         m_Mode: 1
@@ -4277,7 +4214,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703121235}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkUIManager, Assembly-CSharp
         m_MethodName: ClientRejointHote
         m_Mode: 1
@@ -4403,60 +4340,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1 &1495831715
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1495831716}
-  - component: {fileID: 1495831717}
-  m_Layer: 0
-  m_Name: NavigationManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1495831716
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495831715}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 336.73053, y: 245.96562, z: -1.8314962}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1825707331}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1495831717
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1495831715}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2426427e1afda444da25fc052e018d40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panelSelectionHostClient: {fileID: 48978221}
-  panelHostConfig: {fileID: 1135052158}
-  panelClientConfig: {fileID: 453083829}
-  PanelAttenteServeur: {fileID: 1909181784}
-  PanellAttenteClient: {fileID: 1478494209}
-  PanelServeurLancePartie: {fileID: 942058830}
-  decouvreLANHote: {fileID: 1875912764}
-  decouvreLANClient: {fileID: 1212617828}
-  champsNomPartieHote: {fileID: 1039935969}
-  NomPartieHote: {fileID: 1211419452}
 --- !u!1 &1519309133
 GameObject:
   m_ObjectHideFlags: 0
@@ -4531,9 +4414,6 @@ MonoBehaviour:
   balle: {fileID: 4766253011594568830, guid: d7eb7cd09001a4dec9a6e29bee6c6e5f, type: 3}
   joueur1: {fileID: 6519297369172772106, guid: 4576af1d7257647f8988c0bd11f808a4, type: 3}
   joueur2: {fileID: 6519297369172772106, guid: 463725d250d224c569fbb84474f14104, type: 3}
-  targetSceneName: LeJeu
-  expectedPlayers: 2
-  loadDelaySeconds: 0.5
 --- !u!1 &1663319589
 GameObject:
   m_ObjectHideFlags: 0
@@ -4617,7 +4497,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 703121235}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkUIManager, Assembly-CSharp
         m_MethodName: SelectionReseauLocal
         m_Mode: 1
@@ -4815,7 +4695,6 @@ GameObject:
   - component: {fileID: 1814375570}
   - component: {fileID: 1814375569}
   - component: {fileID: 1814375568}
-  - component: {fileID: 1814375572}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -4911,20 +4790,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &1814375572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1814375567}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a76ad9b8decd4b048824f19eeff96ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  publicIpServiceUrl: https://api.ipify.org
-  publicIpTimeoutSec: 5
 --- !u!1 &1822296327
 GameObject:
   m_ObjectHideFlags: 0
@@ -4935,7 +4800,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1822296329}
   - component: {fileID: 1822296328}
-  - component: {fileID: 1822296330}
   m_Layer: 0
   m_Name: OnlineController
   m_TagString: Untagged
@@ -4958,6 +4822,8 @@ MonoBehaviour:
   queueName: Coop2joueurs
   ticketPollSeconds: 1
   maxClientsForHost: 1
+  quickJoinRetryCount: 3
+  quickJoinRetryDelayMs: 1000
 --- !u!4 &1822296329
 Transform:
   m_ObjectHideFlags: 0
@@ -4973,18 +4839,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1825707331}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1822296330
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1822296327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14e0589092d55b34da869fef60526130, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::NetworkDiag
 --- !u!1 &1825707330
 GameObject:
   m_ObjectHideFlags: 0
@@ -5016,63 +4870,9 @@ Transform:
   m_Children:
   - {fileID: 1822296329}
   - {fileID: 269996660}
-  - {fileID: 1495831716}
-  - {fileID: 703121234}
-  - {fileID: 1875912765}
-  - {fileID: 1212617829}
+  - {fileID: 46530099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1875912764
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1875912765}
-  - component: {fileID: 1875912766}
-  m_Layer: 0
-  m_Name: LanDiscoveryHost
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1875912765
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1875912764}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1825707331}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1875912766
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1875912764}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5efad17654c9e4947ba8adafb57d9ce8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::LanDiscovery
-  role: 0
-  discoveryPort: 47777
-  magic: NGO_DISCOVERY_V1
-  broadcastIntervalMs: 750
-  hostTtlSeconds: 10
-  gameName: PcGame
-  gamePortOverride: 0
 --- !u!1 &1892175259
 GameObject:
   m_ObjectHideFlags: 0

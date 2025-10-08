@@ -1,10 +1,9 @@
-// OnlineUIButton.cs
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class OnlineUIButton : MonoBehaviour
+public class MatchmakingBouton : MonoBehaviour
 {
     [Header("Références")]
     public Button playOnlineButton;

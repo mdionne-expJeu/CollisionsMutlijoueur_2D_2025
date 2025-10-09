@@ -6,30 +6,27 @@ using TMPro;
 public class MatchmakingBouton : MonoBehaviour
 {
     [Header("Références")]
-    public Button playOnlineButton;
-    public TMP_Text statusText; // Optionnel (UI Text). Si tu utilises TMP, remplace par TMP_Text
+    public TMP_Text statusText; // Référence au texte qui affichera l'état de la connexion
 
     [Header("Contrôleur du flux en ligne")]
-    public PlayOnlineController playOnlineController;
+    public PlayOnlineController playOnlineController; //Référence au script principal pour la gestion du matchmaker
 
     bool _working;
 
-    void Awake()
-    {
-        if (playOnlineButton != null)
-            playOnlineButton.onClick.AddListener(OnPlayOnlineClicked);
-    }
 
-    async void OnPlayOnlineClicked()
+    /* 
+    Fonction asynchrone publique qui doit être appelée par le bouton qui lance la connexion
+    */
+    public async void OnPlayOnlineClicked()
     {
         if (_working || playOnlineController == null) return;
 
         _working = true;
-        SetInteractable(false);
         SetStatus("Connexion en cours...");
 
         try
         {
+            //Activation de la fonction principale du script PlayOnlineController
             await playOnlineController.RunOnlineFlowAsync();
             SetStatus("Connecté !");
         }
@@ -40,17 +37,11 @@ public class MatchmakingBouton : MonoBehaviour
         }
         finally
         {
-            // Tu peux laisser le bouton désactivé une fois connecté, à toi de voir.
-            // Ici, on le réactive pour pouvoir retenter (pratique en dev).
-            SetInteractable(true);
             _working = false;
         }
     }
 
-    void SetInteractable(bool v)
-    {
-        if (playOnlineButton != null) playOnlineButton.interactable = v;
-    }
+    
 
     void SetStatus(string msg)
     {

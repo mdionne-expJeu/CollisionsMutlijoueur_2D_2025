@@ -35,14 +35,14 @@ public class PlayOnlineController : MonoBehaviour
 {
     [Header("Matchmaker")]
     [SerializeField] private string queueName = "Coop2joueurs";
-    [SerializeField] private float ticketPollSeconds = 1.0f;
+    private float ticketPollSeconds = 1.0f;
 
     [Header("Relay")]
     [SerializeField] private ushort maxClientsForHost = 1; // 2 joueurs total → 1 client à accepter
 
-    [Header("Lobby")]
-    [SerializeField] private int quickJoinRetryCount = 3;
-    [SerializeField] private int quickJoinRetryDelayMs = 1000;
+  
+   private int quickJoinRetryCount = 3;
+   private int quickJoinRetryDelayMs = 1000;
 
     private bool _isRunning;
     private LobbyBridge _lobbyBridgeRef; // pour re-lire le code côté client lors des retries

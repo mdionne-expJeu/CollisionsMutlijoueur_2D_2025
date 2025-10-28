@@ -4,6 +4,7 @@ using System.Collections;
 using System;
 using Unity.Netcode.Transports.UTP;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : NetworkBehaviour
 {
@@ -14,6 +15,8 @@ public class GameManager : NetworkBehaviour
     public GameObject joueur2;
     public Action OnDebutPartie; // Création d'une action auquel d'autres scripts pourront s'abonner.
 
+    [SerializeField] TextMeshProUGUI texteInfoServeur;
+    [SerializeField] TextMeshProUGUI texteInfoClient;
 
     private void Awake()
     {
@@ -52,7 +55,7 @@ public class GameManager : NetworkBehaviour
     private void OnNouveauClientConnecte(ulong obj)
     {
 
-        
+
         if (!IsServer)
         {
             NavigationManager.singleton.AfficheAttenteClient();
@@ -64,15 +67,33 @@ public class GameManager : NetworkBehaviour
             NavigationManager.singleton.AfficheAttenteServeur();
             Debug.Log("Un joueur connecté");
         }
-        else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
+        if (NetworkManager.Singleton.ConnectedClients.Count == 2)
+        {
+            NavigationManager.singleton.AfficheAttenteServeur();
+            Debug.Log("Un deuxième joueur connecté");
+            texteInfoServeur.text = "En attente d'un troisième joueur...";
+        }
+        if (NetworkManager.Singleton.ConnectedClients.Count == 3)
+        {
+            NavigationManager.singleton.AfficheAttenteServeur();
+            Debug.Log("Un troisième joueur connecté");
+            texteInfoServeur.text = "En attente d'un quatrième joueur...";
+        }
+        else if (NetworkManager.Singleton.ConnectedClients.Count == 4)
         {
             NavigationManager.singleton.AffichePanelServeurLancePartie();
-            Debug.Log("Un deuxième joueur connecté");
-
+            Debug.Log("Un quatrième joueur connecté");
         }
+
+        AffichageNombreClientsConnectes_Rpc();
     }
     
-    
+    [Rpc(SendTo.NotServer)]
+     void AffichageNombreClientsConnectes_Rpc()
+    {
+        int nbClient = NetworkManager.Singleton.ConnectedClients.Count;
+        texteInfoClient.text = $"Joueurs connectés  = {nbClient} / 4";
+    }
 
     public void ChargementSceneJeu()
     {

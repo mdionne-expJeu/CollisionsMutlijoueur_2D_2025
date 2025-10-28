@@ -38,8 +38,11 @@ public class PlayOnlineController : MonoBehaviour
     private float ticketPollSeconds = 1.0f;
 
     [Header("Relay")]
+    [Tooltip("Nombre max de clients (hors hôte) que l'hôte va accepter")]
     [SerializeField] private ushort maxClientsForHost = 1; // 2 joueurs total → 1 client à accepter
 
+    [Tooltip("Nombre max de joueurs dans un lobby")]
+    [SerializeField] private int maxJoueursDansLobby = 2;
   
    private int quickJoinRetryCount = 3;
    private int quickJoinRetryDelayMs = 1000;
@@ -70,7 +73,7 @@ public class PlayOnlineController : MonoBehaviour
             var _ = await CreateTicketAndWaitAsync(queueName, ticketPollSeconds); // on n'utilise pas le contenu pour l'élection
 
             // --- 2) Lobby : QuickJoin avec retries avant de créer (évite 2 lobbys parallèles) ---
-            var lobbyBridge = new LobbyBridge(quickJoinRetryCount, quickJoinRetryDelayMs);
+            var lobbyBridge = new LobbyBridge(quickJoinRetryCount, quickJoinRetryDelayMs,maxJoueursDansLobby);
             _lobbyBridgeRef = lobbyBridge;
             bool iAmHost = await lobbyBridge.BecomeHostIfNeededAsync();
 
@@ -261,11 +264,13 @@ public class PlayOnlineController : MonoBehaviour
         public Lobby Lobby { get; private set; }
         private readonly int _retryCount;
         private readonly int _retryDelayMs;
+        private readonly int _maxJoueursDansLobby;
 
-        public LobbyBridge(int retryCount, int retryDelayMs)
+        public LobbyBridge(int retryCount, int retryDelayMs, int maxJoueursDansLobby)
         {
             _retryCount = Mathf.Max(0, retryCount);
             _retryDelayMs = Mathf.Clamp(retryDelayMs, 100, 5000);
+            _maxJoueursDansLobby = maxJoueursDansLobby;
         }
 
         /// <summary>
@@ -276,6 +281,7 @@ public class PlayOnlineController : MonoBehaviour
         {
             for (int i = 0; i < _retryCount; i++)
             {
+                Debug.Log("essaie quick join");
                 try
                 {
                     Lobby = await LobbyService.Instance.QuickJoinLobbyAsync();
@@ -288,7 +294,7 @@ public class PlayOnlineController : MonoBehaviour
                 }
             }
 
-            Lobby = await LobbyService.Instance.CreateLobbyAsync("Coop2MM", 2);
+            Lobby = await LobbyService.Instance.CreateLobbyAsync("Coop2MM",  _maxJoueursDansLobby);
             Debug.Log("[Lobby] Created as host");
             return true; // a créé → hôte
         }

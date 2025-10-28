@@ -911,6 +911,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7df8b1797a3004418c0467b15bb9e0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RelayManager
+  maxConnections: 1
   RelayJoinCode: 
   joinCodeText: {fileID: 1211419452}
   joinCodeInputField: {fileID: 557330794}

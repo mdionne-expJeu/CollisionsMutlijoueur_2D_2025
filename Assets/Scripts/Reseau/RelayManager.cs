@@ -19,11 +19,12 @@ using TMPro;
 public class RelayManager : MonoBehaviour
 {
     public static RelayManager instance;
-    const int m_MaxConnections = 1; // Celui qui �tabli le relais compte d��
+    [Tooltip("Maximum de joueurs connectés au relais (excluant l'hôte)")]
+    [SerializeField]int maxConnections = 2; // // Celui qui établit le relais compte déjà
     public string RelayJoinCode;
 
-    private Allocation allocation; // ajout, diff�rent du tuto
-    private JoinAllocation joinAllocation; // ajout, diff�rent du tuto
+    private Allocation allocation; // ajout, différent du tuto
+    private JoinAllocation joinAllocation; // ajout, diffésrent du tuto
 
     [SerializeField] private TextMeshProUGUI joinCodeText;
     [SerializeField] private TMP_InputField joinCodeInputField;
@@ -95,7 +96,7 @@ public class RelayManager : MonoBehaviour
 
     public IEnumerator ConfigureTransportAndStartNgoAsHost()
     {
-        var serverRelayUtilityTask = AllocateRelayServerAndGetJoinCode(m_MaxConnections);
+        var serverRelayUtilityTask = AllocateRelayServerAndGetJoinCode(maxConnections);
         while (!serverRelayUtilityTask.IsCompleted)
         {
             yield return null;

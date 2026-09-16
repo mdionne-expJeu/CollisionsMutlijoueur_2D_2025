@@ -51,7 +51,6 @@ public class GameManager : NetworkBehaviour
     */
     private void OnNouveauClientConnecte(ulong obj)
     {
-
         if (!IsServer)
         {
             NavigationManager.singleton.AfficheAttenteClient();

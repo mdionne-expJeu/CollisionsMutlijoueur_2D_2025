@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : NetworkBehaviour
 {
     public static GameManager singleton { get; private set; }
-   
+
     public GameObject balle;
     public GameObject joueur1;
     public GameObject joueur2;
@@ -59,24 +59,25 @@ public class GameManager : NetworkBehaviour
         }
 
         if (NetworkManager.Singleton.ConnectedClients.Count == 1)
-            {
-                NavigationManager.singleton.AfficheAttenteServeur();
-               
-            }
-            else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
-            {
-                NavigationManager.singleton.AffichePanelServeurLancePartie();
-               
-            }
+        {
+            NavigationManager.singleton.AfficheAttenteServeur();
+
+        }
+        else if (NetworkManager.Singleton.ConnectedClients.Count == 2)
+        {
+            NavigationManager.singleton.AffichePanelServeurLancePartie();
+
+        }
     }
 
     public void ChargementSceneJeu()
-    { 
+    {
         NetworkManager.Singleton.SceneManager.LoadScene("LeJeu", LoadSceneMode.Single);
     }
 
     public void LancementHote(string adresseIP)
     {
+        Debug.Log("Lancement de l'hôte fonction LancementHote");
         UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
         utp.SetConnectionData(adresseIP, 7777);
 
@@ -87,6 +88,7 @@ public class GameManager : NetworkBehaviour
     //Création de l'hôte
     public void LancementHoteDecouverteLan()
     {
+        Debug.Log("Lancement de l'hôte fonction LancementHoteDecouverteLan");
         NetworkManager.Singleton.StartHost();
     }
 
@@ -145,7 +147,7 @@ public class GameManager : NetworkBehaviour
         nouvelleBalle.GetComponent<Rigidbody2D>().gravityScale = 1;
         StartCoroutine(DesactivationGravite(nouvelleBalle));
     }
-    
+
     IEnumerator DesactivationGravite(GameObject nouvelleBalle)
     {
         yield return new WaitForSeconds(1f);

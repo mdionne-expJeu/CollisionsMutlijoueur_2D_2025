@@ -1,3 +1,34 @@
+/*
+ * ======================================================================================
+ * INTERFACE UTILISATEUR DE RECHERCHE DE PARTIES LAN (LAN MENU)
+ * ======================================================================================
+ * 
+ * DESCRIPTION GENERALE :
+ * Ce composant gère l'affichage dynamique du menu de recherche et de sélection de 
+ * parties sur le réseau local (LAN). Il utilise l'ancien système IMGUI (OnGUI) d'Unity 
+ * pour construire une interface centrée et responsive.
+ *
+ * FONCTIONNEMENT :
+ * 1. DÉTECTION & RÉCUPÉRATION :
+ *    - Interroge le composant LanDiscovery pour obtenir un instantané (GetHostsSnapshot) 
+ *      de tous les hôtes actifs détectés sur le sous-réseau.
+ * 
+ * 2. RENDU VISUEL & ERGONOMIE (OnGUI) :
+ *    - Calcule un conteneur centré représentant 75% de la taille de l'écran.
+ *    - Affiche une barre d'en-tête dynamique indiquant le statut de la recherche et 
+ *      le nombre de parties actuellement répertoriées.
+ *    - Présente chaque hôte disponible sous forme de "carte" personnalisée (GUIStyle) 
+ *      affichant le nom de la partie, l'adresse IP et le port.
+ *    - Propose un défilement vertical (ScrollView) en cas de nombre élevé de serveurs.
+ * 
+ * 3. CONNEXION :
+ *    - Fournit un bouton "REJOINDRE" pour chaque hôte, permettant d'initier la connexion 
+ *      directe (via LanDiscovery.ConnectTo) avec le transport réseau (UnityTransport).
+ *
+ * REQUIS :
+ * - Nécessite une référence valide vers un composant LanDiscovery dans la scène.
+ * ======================================================================================
+ */
 using UnityEngine;
 
 public class LanMenu : MonoBehaviour

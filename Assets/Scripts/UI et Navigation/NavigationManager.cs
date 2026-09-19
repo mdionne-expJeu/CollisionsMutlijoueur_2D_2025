@@ -19,7 +19,7 @@ public class NavigationManager : MonoBehaviour
     // Référence au gameObject qui utilise LanDiscovery comme hôte
     [SerializeField] private GameObject decouvreLANClient;
     [SerializeField] private TMP_InputField champsNomPartieHote;
-    
+
     [SerializeField] private TextMeshProUGUI NomPartieHote;
 
     private void Awake()
@@ -42,11 +42,23 @@ public class NavigationManager : MonoBehaviour
         panelHostConfig.SetActive(true);
     }
 
+    /* Callback du bouton "Client" lorsque l'utilisateur choisi d'être client.
+     On active le panel client qui contient le script d'affichage des hôtes sur le réseau (LanMenu)
+     On active le gameObject qui permet de lancer la recherche d'hôtes sur le réseau (LanDiscovery en mode client)
+     */
+    public void NavigationPanelClient()
+    {
+        panelSelectionHostClient.SetActive(false);
+        panelClientConfig.SetActive(true);
+        decouvreLANClient.SetActive(true);
+    }
+
     /* Callback du bouton "Creer l'hôte" activé par l'utilisateur après avoir choisi un nom de partie
     On affiche la panel d'attente d'un autre joueur
     On change le nom de la partie dans le component LanDiscovery
     On active le gameobject contenant le LanDiscovery comme hôte
-    On appelle la fonction du gameManager LancementHoteDecouverteLan();
+    On change le nom de la partie dans le panel d'attente du serveur
+    On appelle la fonction du gameManager LancementHoteDecouverteLan()
      */
     public void CreationPartieHote()
     {
@@ -59,16 +71,7 @@ public class NavigationManager : MonoBehaviour
     }
 
 
-     /* Callback du bouton "Client" lorsque l'utilisateur choisi d'être client.
-     On active le panel client qui contient le script d'affichage des hôtes sur le réseau (LanMenu)
-     On active le gameObject qui permet de lancer la recherche d'hôtes sur le réseau (LanDiscovery en mode client)
-     */
-    public void NavigationPanelClient()
-    {
-        panelSelectionHostClient.SetActive(false);
-        panelClientConfig.SetActive(true);
-        decouvreLANClient.SetActive(true);
-    }
+
 
     public void CachePanelsConfig()
     {
@@ -87,7 +90,8 @@ public class NavigationManager : MonoBehaviour
         panelClientConfig.SetActive(false);
         PanellAttenteClient.SetActive(true);
     }
-    
+
+    // Callback du bouton "Lancer la partie" activé par l'hôte lorsque le client est connecté
     public void AffichePanelServeurLancePartie()
     {
         PanelAttenteServeur.SetActive(false);

@@ -1,4 +1,36 @@
-// Assets/Scripts/LanDiscovery.cs
+/*
+ * ======================================================================================
+ * SYSTÈME DE DÉCOUVERTEMENT LAN AUTONOME (LAN DISCOVERY)
+ * ======================================================================================
+ * 
+ * DESCRIPTION GENERALE :
+ * Ce composant gère la détection automatique des hôtes (serveurs de jeu) sur un réseau 
+ * local (LAN) pour Netcode for GameObjects (NGO) via des paquets UDP Broadcast.
+ * Il élimine le besoin de saisir manuellement les adresses IP pour rejoindre une partie.
+ *
+ * ARCHITECTURE & FONCTIONNEMENT :
+ * 1. RÔLE HOST (Serveur) :
+ *    - Envoie périodiquement (broadcastIntervalMs) un paquet UDP sur l'adresse broadcast 
+ *      du sous-réseau (IPAddress.Broadcast) sur un port dédié (discoveryPort).
+ *    - Transmet un objet JSON (DiscoveryMsg) contenant le nom de la partie, le port UTP 
+ *      du serveur de jeu, ainsi qu'un identifiant de session unique (session).
+ * 
+ * 2. RÔLE CLIENT :
+ *    - Écoute le port UDP spécifié de manière asynchrone (StartClientListen).
+ *    - Reçoit les annonces, filtre les paquets invalides (magic) ou provenant de sa propre 
+ *      instance (_sessionId), puis enregistre les hôtes découverts dans un dictionnaire.
+ *    - Nettoie automatiquement les hôtes inactifs dans Update() si aucun signe de vie 
+ *      n'est reçu avant le délai d'expiration (hostTtlSeconds).
+ *
+ * AVANTAGES & POINTS CLÉS :
+ * - Thread-Safe : Utilise des verrous (lock) pour la gestion concurrente du dictionnaire
+ *   d'hôtes entre les tâches d'écoute UDP et le thread principal d'Unity (Update / UI).
+ * - Résilience réseau : Gestion des annulations propres via CancellationTokenSource 
+ *   et de la libération des sockets lors du OnDisable.
+ * - Intégration UTP : Résout dynamiquement le port du composant UnityTransport.
+ *
+ * ======================================================================================
+ */
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -169,67 +201,67 @@ public class LanDiscovery : MonoBehaviour
     }
 
     // ---------- CLIENT ----------
-   
-async void StartClientListen(CancellationToken ct)
-{
-    try
-    {
-        _listener = new UdpClient(discoveryPort);
-        _listener.EnableBroadcast = true;
-    }
-    catch (Exception e)
-    {
-        Debug.LogError($"[LanDiscovery] Impossible d'ouvrir le port {discoveryPort}: {e.Message}");
-        return;
-    }
 
-    Task<UdpReceiveResult> receiveTask = _listener.ReceiveAsync(); // une seule attente partagée
-
-    while (!ct.IsCancellationRequested)
+    async void StartClientListen(CancellationToken ct)
     {
         try
         {
-            // Attendre soit la réception, soit un “tick” de 1 seconde
-            var completed = await Task.WhenAny(receiveTask, Task.Delay(1000, ct));
-
-            if (completed == receiveTask)
-            {
-                // Un paquet est arrivé
-                var result = receiveTask.Result;
-
-                // Redémarrer immédiatement l’attente pour le prochain paquet
-                receiveTask = _listener.ReceiveAsync();
-
-                string json = Encoding.UTF8.GetString(result.Buffer);
-                var msg = JsonUtility.FromJson<DiscoveryMsg>(json);
-                if (msg == null) continue;
-                if (msg.magic != magic) continue;
-                if (msg.port <= 0 || msg.port > 65535) continue;
-                if (msg.session == _sessionId) continue; // ignorer ses propres annonces
-
-                string ip = result.RemoteEndPoint.Address.ToString();
-                var host = new DiscoveredHost
-                {
-                    gameName = msg.gameName,
-                    ip = ip,
-                    port = msg.port,
-                    session = msg.session,
-                    lastSeenUtc = DateTime.UtcNow
-                };
-
-                lock (_lock) { _hosts[host.Key] = host; } // dédup + refresh
-            }
-            else
-            {
-                // Tick (aucun paquet pendant ~1s) → ne crée PAS un nouveau ReceiveAsync ici.
-                // On laisse "receiveTask" vivant pour la prochaine itération.
-            }
+            _listener = new UdpClient(discoveryPort);
+            _listener.EnableBroadcast = true;
         }
-        catch (ObjectDisposedException) { break; }         // socket fermé (OnDisable)
-        catch (TaskCanceledException) { if (ct.IsCancellationRequested) break; }
-        catch (Exception e) { Debug.LogWarning($"[LanDiscovery] Listen error: {e.Message}"); }
+        catch (Exception e)
+        {
+            Debug.LogError($"[LanDiscovery] Impossible d'ouvrir le port {discoveryPort}: {e.Message}");
+            return;
+        }
+
+        Task<UdpReceiveResult> receiveTask = _listener.ReceiveAsync(); // une seule attente partagée
+
+        while (!ct.IsCancellationRequested)
+        {
+            try
+            {
+                // Attendre soit la réception, soit un “tick” de 1 seconde
+                var completed = await Task.WhenAny(receiveTask, Task.Delay(1000, ct));
+
+                if (completed == receiveTask)
+                {
+                    // Un paquet est arrivé
+                    var result = receiveTask.Result;
+
+                    // Redémarrer immédiatement l’attente pour le prochain paquet
+                    receiveTask = _listener.ReceiveAsync();
+
+                    string json = Encoding.UTF8.GetString(result.Buffer);
+                    var msg = JsonUtility.FromJson<DiscoveryMsg>(json);
+                    if (msg == null) continue;
+                    if (msg.magic != magic) continue;
+                    if (msg.port <= 0 || msg.port > 65535) continue;
+                    if (msg.session == _sessionId) continue; // ignorer ses propres annonces
+
+                    string ip = result.RemoteEndPoint.Address.ToString();
+                    var host = new DiscoveredHost
+                    {
+                        gameName = msg.gameName,
+                        ip = ip,
+                        port = msg.port,
+                        session = msg.session,
+                        lastSeenUtc = DateTime.UtcNow
+                    };
+
+                    lock (_lock) { _hosts[host.Key] = host; } // dédup + refresh
+                }
+                else
+                {
+                    // Tick (aucun paquet pendant ~1s) → ne crée PAS un nouveau ReceiveAsync ici.
+                    // On laisse "receiveTask" vivant pour la prochaine itération.
+                }
+            }
+            catch (ObjectDisposedException) { break; }         // socket fermé (OnDisable)
+            catch (TaskCanceledException) { if (ct.IsCancellationRequested) break; }
+            catch (Exception e) { Debug.LogWarning($"[LanDiscovery] Listen error: {e.Message}"); }
+        }
     }
-}
 
 
 

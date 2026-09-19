@@ -70,19 +70,12 @@ public class GameManager : NetworkBehaviour
         }
     }
 
+    // Callback du bouton "Lancer la partie" activé par l'hôte lorsque le client est connecté
+    // Chargement de la scène du jeu pour tous les clients et l'hôte. Le paramètre LoadSceneMode.Single permet de s'assurer 
+    // que la scène précédente est détruite.
     public void ChargementSceneJeu()
     {
         NetworkManager.Singleton.SceneManager.LoadScene("LeJeu", LoadSceneMode.Single);
-    }
-
-    public void LancementHote(string adresseIP)
-    {
-        Debug.Log("Lancement de l'hôte fonction LancementHote");
-        UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
-        utp.SetConnectionData(adresseIP, 7777);
-
-        NetworkManager.Singleton.StartHost();
-        NavigationManager.singleton.CachePanelsConfig();
     }
 
     //Création de l'hôte
@@ -90,21 +83,6 @@ public class GameManager : NetworkBehaviour
     {
         Debug.Log("Lancement de l'hôte fonction LancementHoteDecouverteLan");
         NetworkManager.Singleton.StartHost();
-    }
-
-    public void LancementClient(string adresseIP)
-    {
-        UnityTransport utp = NetworkManager.Singleton.GetComponent<UnityTransport>();
-        utp.SetConnectionData(adresseIP, 7777);
-
-        NetworkManager.Singleton.StartClient();
-        NavigationManager.singleton.CachePanelsConfig();
-    }
-
-    public void LancementClientRelay()
-    {
-        RelayManager.instance.StartCoroutine(RelayManager.instance.ConfigureTransportAndStartNgoAsConnectingPlayer());
-
     }
 
 

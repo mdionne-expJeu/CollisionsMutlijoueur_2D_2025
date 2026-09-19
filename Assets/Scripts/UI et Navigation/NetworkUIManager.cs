@@ -32,15 +32,5 @@ public class NetworkUIManager : MonoBehaviour
         champsIPHote.text = ip;
     }
 
-    public void CreerHote()
-    {
-        if (champsIPHote.text != "")
-            GameManager.singleton.LancementHote(champsIPHote.text);
-    }
-    
-     public void ClientRejointHote()
-    {
-        if(champsIPClient.text != "")
-            GameManager.singleton.LancementClientRelay();
-    }
+
 }

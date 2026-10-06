@@ -4778,7 +4778,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayOnlineController
   queueName: Coop2joueurs
-  maxClientsForHost: 3
+  maxClientsForHost: 4
   maxJoueursDansLobby: 4
 --- !u!4 &1822296329
 Transform:
@@ -5229,6 +5229,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 882973872191617960, guid: 530c313d6f7ef0643b1875df84ef0fff, type: 3}
+      propertyPath: joueur3
+      value: 
+      objectReference: {fileID: 6519297369172772106, guid: 2ff871666cfbc7f4b8bc8a3ac399ff7e, type: 3}
+    - target: {fileID: 882973872191617960, guid: 530c313d6f7ef0643b1875df84ef0fff, type: 3}
+      propertyPath: joueur4
+      value: 
+      objectReference: {fileID: 6519297369172772106, guid: b25d0a2700888fe42b5166c185dfc1e2, type: 3}
     - target: {fileID: 882973872191617960, guid: 530c313d6f7ef0643b1875df84ef0fff, type: 3}
       propertyPath: texteInfoClient
       value: 

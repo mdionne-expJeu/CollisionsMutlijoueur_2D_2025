@@ -13,6 +13,8 @@ public class GameManager : NetworkBehaviour
     public GameObject balle;
     public GameObject joueur1;
     public GameObject joueur2;
+    public GameObject joueur3;
+    public GameObject joueur4;
     public Action OnDebutPartie; // Création d'une action auquel d'autres scripts pourront s'abonner.
 
     [SerializeField] TextMeshProUGUI texteInfoServeur;
@@ -54,6 +56,24 @@ public class GameManager : NetworkBehaviour
     */
     private void OnNouveauClientConnecte(ulong obj)
     {
+        //if (!IsServer)
+        //{
+        //    NavigationManager.singleton.AfficheAttenteClient();
+        //    return;
+        //}
+
+        //if (NetworkManager.Singleton.ConnectedClients.Count == 1)
+        //{
+        //    NavigationManager.singleton.AfficheAttenteServeur();
+        //    Debug.Log("Un joueur connecté");
+        //}
+        //if (NetworkManager.Singleton.ConnectedClients.Count == 2)
+        //{
+        //    NavigationManager.singleton.AffichePanelServeurLancePartie();
+        //    Debug.Log("Un deuxième joueur connecté");
+        //}
+
+
 
 
         if (!IsServer)
@@ -69,6 +89,7 @@ public class GameManager : NetworkBehaviour
         }
         if (NetworkManager.Singleton.ConnectedClients.Count == 2)
         {
+            NavigationManager.singleton.AffichePanelServeurLancePartie();
             NavigationManager.singleton.AfficheAttenteServeur();
             Debug.Log("Un deuxième joueur connecté");
             texteInfoServeur.text = "En attente d'un troisième joueur...";
@@ -81,7 +102,6 @@ public class GameManager : NetworkBehaviour
         }
         else if (NetworkManager.Singleton.ConnectedClients.Count == 4)
         {
-            NavigationManager.singleton.AffichePanelServeurLancePartie();
             Debug.Log("Un quatrième joueur connecté");
         }
 
@@ -151,11 +171,24 @@ public class GameManager : NetworkBehaviour
     }
     public void CreationJoueurs()
     {
+
         GameObject nouveauJoueur = Instantiate(joueur1);
         nouveauJoueur.GetComponent<NetworkObject>().SpawnWithOwnership(0);
 
         GameObject nouveauJoueur2 = Instantiate(joueur2);
         nouveauJoueur2.GetComponent<NetworkObject>().SpawnWithOwnership(1);
+
+        if (NetworkManager.Singleton.ConnectedClients.Count > 2)
+        {
+            GameObject nouveauJoueur3 = Instantiate(joueur3);
+            nouveauJoueur3.GetComponent<NetworkObject>().SpawnWithOwnership(2);
+        }
+
+        if (NetworkManager.Singleton.ConnectedClients.Count > 3)
+        {
+            GameObject nouveauJoueur4 = Instantiate(joueur4);
+            nouveauJoueur4.GetComponent<NetworkObject>().SpawnWithOwnership(4);
+        }
     }
     public void CreationBalle()
     {

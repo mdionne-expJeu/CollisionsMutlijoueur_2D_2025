@@ -43,9 +43,9 @@ public class PlayOnlineController : MonoBehaviour
 
     [Tooltip("Nombre max de joueurs dans un lobby")]
     [SerializeField] private int maxJoueursDansLobby = 2;
-  
-   private int quickJoinRetryCount = 3;
-   private int quickJoinRetryDelayMs = 1000;
+
+    private int quickJoinRetryCount = 10;
+    private int quickJoinRetryDelayMs = 1000;
 
     private bool _isRunning;
     private LobbyBridge _lobbyBridgeRef; // pour re-lire le code côté client lors des retries
@@ -60,20 +60,32 @@ public class PlayOnlineController : MonoBehaviour
 
         try
         {
-            // --- 0) Init UGS + Auth (si pas déjà fait par ta scène Bootstrap) ---
+            // --- 0) Init UGS + Auth (Isolation stricte pour les builds locaux) ---
             if (UnityServices.State != ServicesInitializationState.Initialized)
             {
-                await UnityServices.InitializeAsync();
+                InitializationOptions options = new InitializationOptions();
+
+                // Forcer un profil unique ET un répertoire de cache distinct par instance
+                string uniqueProfile = "Player_" + Guid.NewGuid().ToString("N").Substring(0, 12);
+                options.SetProfile(uniqueProfile);
+                Debug.Log($"[AUTH TEST] Profile AVANT Initialize = {uniqueProfile}");
+                await UnityServices.InitializeAsync(options);
+
                 if (!AuthenticationService.Instance.IsSignedIn)
                     await AuthenticationService.Instance.SignInAnonymouslyAsync();
             }
-            Debug.Log($"Signed in: {AuthenticationService.Instance.PlayerId}");
+            Debug.Log(
+     $"[AUTH TEST] " +
+     $"Profile = {AuthenticationService.Instance.Profile} | " +
+     $"PlayerId = {AuthenticationService.Instance.PlayerId} | " +
+     $"SessionTokenExists = {AuthenticationService.Instance.SessionTokenExists}"
+ );
 
             // --- 1) Matchmaking : créer ticket + attendre assignation (Relay OU Multiplay) ---
             var _ = await CreateTicketAndWaitAsync(queueName, ticketPollSeconds); // on n'utilise pas le contenu pour l'élection
 
             // --- 2) Lobby : QuickJoin avec retries avant de créer (évite 2 lobbys parallèles) ---
-            var lobbyBridge = new LobbyBridge(quickJoinRetryCount, quickJoinRetryDelayMs,maxJoueursDansLobby);
+            var lobbyBridge = new LobbyBridge(quickJoinRetryCount, quickJoinRetryDelayMs, maxJoueursDansLobby);
             _lobbyBridgeRef = lobbyBridge;
             bool iAmHost = await lobbyBridge.BecomeHostIfNeededAsync();
 
@@ -279,24 +291,58 @@ public class PlayOnlineController : MonoBehaviour
         /// </summary>
         public async Task<bool> BecomeHostIfNeededAsync()
         {
+            Debug.Log(
+                $"[Lobby] QuickJoin START | " +
+                $"PlayerId={AuthenticationService.Instance.PlayerId}"
+            );
+
             for (int i = 0; i < _retryCount; i++)
             {
-                Debug.Log("essaie quick join");
+                Debug.Log(
+                    $"[Lobby] QuickJoin attempt {i + 1}/{_retryCount}"
+                );
+
                 try
                 {
                     Lobby = await LobbyService.Instance.QuickJoinLobbyAsync();
-                    Debug.Log("[Lobby] QuickJoin OK");
-                    return false; // a rejoint → client
+
+                    Debug.Log(
+                        $"[Lobby] QuickJoin OK | " +
+                        $"LobbyId={Lobby.Id} | " +
+                        $"HostId={Lobby.HostId}"
+                    );
+
+                    return false;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    Debug.LogWarning(
+                        $"[Lobby] QuickJoin FAILED | " +
+                        $"Attempt={i + 1} | " +
+                        $"Type={ex.GetType().Name} | " +
+                        $"Message={ex.Message}"
+                    );
+
                     await Task.Delay(_retryDelayMs);
                 }
             }
 
-            Lobby = await LobbyService.Instance.CreateLobbyAsync("Coop2MM",  _maxJoueursDansLobby);
-            Debug.Log("[Lobby] Created as host");
-            return true; // a créé → hôte
+            Debug.Log(
+                "[Lobby] Aucun lobby trouvé après les retries. " +
+                "Je deviens HOST."
+            );
+
+            Lobby =
+                await LobbyService.Instance.CreateLobbyAsync(
+                    "Coop2MM",
+                    _maxJoueursDansLobby
+                );
+
+            Debug.Log(
+                $"[Lobby] Created as HOST | LobbyId={Lobby.Id}"
+            );
+
+            return true;
         }
 
         public async Task SetRelayCodeAsync(string code)

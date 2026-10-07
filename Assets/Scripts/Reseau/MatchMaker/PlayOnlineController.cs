@@ -60,26 +60,25 @@ public class PlayOnlineController : MonoBehaviour
 
         try
         {
-            // --- 0) Init UGS + Auth (Isolation stricte pour les builds locaux) ---
-            if (UnityServices.State != ServicesInitializationState.Initialized)
+            // -------------------------------------------------
+            // UGS INITIALIZATION
+            // -------------------------------------------------
+
+            if (UGSBootstrap.InitializationTask != null)
             {
-                InitializationOptions options = new InitializationOptions();
-
-                // Forcer un profil unique ET un répertoire de cache distinct par instance
-                string uniqueProfile = "Player_" + Guid.NewGuid().ToString("N").Substring(0, 12);
-                options.SetProfile(uniqueProfile);
-                Debug.Log($"[AUTH TEST] Profile AVANT Initialize = {uniqueProfile}");
-                await UnityServices.InitializeAsync(options);
-
-                if (!AuthenticationService.Instance.IsSignedIn)
-                    await AuthenticationService.Instance.SignInAnonymouslyAsync();
+                await UGSBootstrap.InitializationTask;
             }
+
             Debug.Log(
-     $"[AUTH TEST] " +
-     $"Profile = {AuthenticationService.Instance.Profile} | " +
-     $"PlayerId = {AuthenticationService.Instance.PlayerId} | " +
-     $"SessionTokenExists = {AuthenticationService.Instance.SessionTokenExists}"
- );
+                $"[UGS] Ready | " +
+                $"Profile={AuthenticationService.Instance.Profile} | " +
+                $"PlayerId={AuthenticationService.Instance.PlayerId}"
+            );
+        // -------------------------------------------------
+        // AUTHENTICATION
+        // -------------------------------------------------
+
+ 
 
             // --- 1) Matchmaking : créer ticket + attendre assignation (Relay OU Multiplay) ---
             var _ = await CreateTicketAndWaitAsync(queueName, ticketPollSeconds); // on n'utilise pas le contenu pour l'élection

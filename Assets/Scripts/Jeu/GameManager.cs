@@ -187,7 +187,7 @@ public class GameManager : NetworkBehaviour
         if (NetworkManager.Singleton.ConnectedClients.Count > 3)
         {
             GameObject nouveauJoueur4 = Instantiate(joueur4);
-            nouveauJoueur4.GetComponent<NetworkObject>().SpawnWithOwnership(4);
+            nouveauJoueur4.GetComponent<NetworkObject>().SpawnWithOwnership(3);
         }
     }
     public void CreationBalle()
